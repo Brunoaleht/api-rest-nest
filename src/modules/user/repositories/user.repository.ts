@@ -10,7 +10,7 @@ export class UserRepository {
   async create(user: UserRegisterDto): Promise<UserInterface> {
     // const newUser = await this.prismaService.user.create({ data: user });
     return await {
-      id: 1,
+      id: 2,
       name: 'John Doe',
       email: 'test@gmail.com',
       password: '',
