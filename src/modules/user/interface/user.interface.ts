@@ -1,18 +1,20 @@
-import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty } from 'class-validator';
 
-export class UserRegisterDto {
-  @IsNotEmpty()
+export class UserInterface {
+  @ApiProperty({
+    description: 'The id of the user',
+    type: Number,
+    example: 1,
+  })
+  id: number;
+
   @ApiProperty({
     description: 'The name of the user',
-    example: 'John Doe',
     type: String,
+    example: 'John Doe',
   })
   name: string;
 
-  @IsEmail()
-  @IsNotEmpty()
   @ApiProperty({
     description: 'The email of the user',
     type: String,
@@ -20,15 +22,27 @@ export class UserRegisterDto {
   })
   email: string;
 
-  @IsNotEmpty()
   @ApiProperty({
     description: 'The password of the user',
     type: String || null || undefined,
     example: 'password',
   })
-  password: string;
+  password?: string;
 
-  @IsNotEmpty()
+  @ApiProperty({
+    description: 'The created_at of the user',
+    type: Date,
+    example: '2021-06-17T17:57:42.000Z',
+  })
+  created_at?: Date;
+
+  @ApiProperty({
+    description: 'The updated_at of the user',
+    type: Date || null || undefined,
+    example: '2021-06-17T17:57:42.000Z',
+  })
+  updated_at?: Date | null;
+
   @ApiProperty({
     description: 'The password of the user',
     type: String || null || undefined,
@@ -36,7 +50,6 @@ export class UserRegisterDto {
   })
   cpf: string;
 
-  @Optional()
   @ApiProperty({
     description: 'The phone confirmation of the user',
     type: String,
