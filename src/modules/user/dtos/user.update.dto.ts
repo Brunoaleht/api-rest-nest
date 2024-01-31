@@ -5,36 +5,48 @@ export class UserUpdateDto {
   @IsString()
   @IsOptional()
   @ApiProperty({
-    description: 'The name of the user',
-    type: String || null || undefined,
-    example: 'John Doe',
+    type: String,
+    required: false,
+    description: 'Nome do usuário',
+    example: 'lucas@email.com',
   })
   name?: string;
+
+  @ApiProperty({
+    type: String,
+    required: false,
+    description: 'CPF number',
+    example: '87799999',
+  })
+  cpf: string;
 
   @IsString()
   @IsOptional()
   @ApiProperty({
-    description: 'The phone of the user',
-    type: String || null || undefined,
-    example: '1185983645839',
+    type: String,
+    required: false,
+    description: 'Phone number',
+    example: '11999999999',
   })
   phone?: string;
 
   @IsEmail()
   @IsOptional()
   @ApiProperty({
-    description: 'The email of the user',
-    type: String || null || undefined,
-    example: 'email@email.com',
+    type: String,
+    required: false,
+    description: 'Email example:',
+    example: 'lucas@email.com',
   })
   email: string;
 
   @IsString()
   @IsOptional()
   @ApiProperty({
-    description: 'The password of the user',
-    type: String || null || undefined,
-    example: 'password',
+    type: String,
+    required: false,
+    description: 'Password example:',
+    example: 'senha456',
   })
   password?: string;
 }

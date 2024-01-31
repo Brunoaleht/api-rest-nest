@@ -14,8 +14,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { ApiDocGenericPost } from 'src/app/common/api-doc-generic-post.decorator';
 import { ApiDocGenericGetOne } from 'src/app/common/api-doc-generic-get-one.decorator';
 import { ApiDocGenericGetAll } from 'src/app/common/api-doc-generic-get-all.decorator';
-import { UserInterface } from './interface/user.interface';
+
 import { UserUpdateDto } from './dtos/user.update.dto';
+import { UserEntity } from './entity/user.entity';
+import { ApiDocGenericDelete } from 'src/app/common/api-doc-generic-delete.decorator';
+import { UserDto } from './dtos/user.dto';
 
 @ApiTags('user')
 @Controller('user')
@@ -31,35 +34,35 @@ export class UserController {
   }
 
   @Post('register')
-  @ApiDocGenericPost('user-register', UserRegisterDto, UserInterface)
-  async register(@Body() body: UserRegisterDto): Promise<UserInterface> {
+  @ApiDocGenericPost('user-register', UserRegisterDto, UserEntity)
+  async register(@Body() body: UserRegisterDto): Promise<UserEntity> {
     return await this.userService.register(body);
   }
 
   @Delete('delete/:userId')
-  @ApiDocGenericPost('user-delete', UserInterface)
-  async delete(@Param('userId') userId: string): Promise<UserInterface> {
+  @ApiDocGenericDelete('user-delete')
+  async delete(@Param('userId') userId: string): Promise<any> {
     return await this.userService.remove(+userId);
   }
 
   @Patch('update/:userId')
-  @ApiDocGenericPost('user-update', UserUpdateDto, UserInterface)
+  @ApiDocGenericPost('user-update', UserUpdateDto)
   async update(
     @Param('userId') userId: string,
     @Body() body: UserUpdateDto,
-  ): Promise<UserInterface> {
+  ): Promise<any> {
     return await this.userService.update(+userId, body);
   }
 
   @Get(':userId')
-  @ApiDocGenericGetOne('user-get-one', UserInterface)
-  async getUserById(@Param('userId') userId: string): Promise<UserInterface> {
+  @ApiDocGenericGetOne('user-get-one', UserEntity)
+  async getUserById(@Param('userId') userId: string): Promise<UserEntity> {
     return await this.userService.getUserById(+userId);
   }
 
   @Get()
-  @ApiDocGenericGetAll('user-get-all', UserInterface)
-  async getAllUser(): Promise<UserInterface[]> {
+  @ApiDocGenericGetAll('user-get-all', UserEntity)
+  async getAllUser(): Promise<UserEntity[]> {
     return await this.userService.getAllUser();
   }
 }

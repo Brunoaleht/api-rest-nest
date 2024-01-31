@@ -1,92 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { UserRegisterDto } from '../dtos/user.register.dto';
-import { UserInterface } from '../interface/user.interface';
+import { UserEntity } from '../entity/user.entity';
 import { UserUpdateDto } from '../dtos/user.update.dto';
 
 @Injectable()
 export class UserRepository {
   constructor() {}
 
-  async create(user: UserRegisterDto): Promise<UserInterface> {
+  async create(user: UserRegisterDto): Promise<UserEntity> {
     // const newUser = await this.prismaService.user.create({ data: user });
-    return await {
-      id: 2,
-      name: 'John Doe',
-      email: 'test@gmail.com',
-      password: '',
-      created_at: new Date(),
-      updated_at: new Date(),
-      cpf: '',
-      phone: '',
-    };
+    return;
   }
 
-  async update(userId: number, user: UserUpdateDto): Promise<UserInterface> {
+  async update(userId: number, user: UserUpdateDto): Promise<UserEntity> {
     // const updatedUser = await this.prismaService.user.update({
     //   where: { id: userId },
     //   data: user,
     // });
 
-    return await {
-      id: 1,
-      name: 'John Doe',
-      email: 'test@gmail.com',
-      password: '',
-      created_at: new Date(),
-      updated_at: new Date(),
-      cpf: '',
-      phone: '',
-    };
+    return;
   }
 
-  async remove(userId: number): Promise<UserInterface> {
+  async remove(userId: number): Promise<UserEntity> {
     // return this.users;
     // const deletedUser = await this.prismaService.user.delete({
     //   where: { id: userId },
     // });
-    return await {
-      id: 1,
-      name: 'John Doe',
-      email: 'test@gmail.com',
-      password: '',
-      created_at: new Date(),
-      updated_at: new Date(),
-      cpf: '',
-      phone: '',
-    };
+    return;
   }
 
-  async findOne(userId: number): Promise<UserInterface> {
+  async findOne(userId: number): Promise<UserEntity> {
     // const foundUser = this.users.find((user) => user.id == userId);
     // const user = await this.prismaService.user.findUnique({
     //   where: { id: userId },
     // });
-    return await {
-      id: 1,
-      name: 'John Doe',
-      email: 'test@gmail.com',
-      password: '',
-      created_at: new Date(),
-      updated_at: new Date(),
-      cpf: '',
-      phone: '',
-    };
+    return;
   }
 
-  async findAll(): Promise<UserInterface[]> {
+  async findAll(): Promise<UserEntity[]> {
     // const users = await this.prismaService.user.findMany();
 
-    return await [
-      {
-        id: 1,
-        name: 'John Doe',
-        email: 'test@gmail.com',
-        password: '',
-        created_at: new Date(),
-        updated_at: new Date(),
-        cpf: '',
-        phone: '',
-      },
-    ];
+    return;
   }
 }

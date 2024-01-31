@@ -5,42 +5,47 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 export class UserRegisterDto {
   @IsNotEmpty()
   @ApiProperty({
-    description: 'The name of the user',
-    example: 'John Doe',
     type: String,
+    required: true,
+    description: 'Name user',
+    example: 'João Lucas',
   })
   name: string;
 
   @IsEmail()
   @IsNotEmpty()
   @ApiProperty({
-    description: 'The email of the user',
     type: String,
-    example: 'email@email.com',
+    required: true,
+    description: 'Email ',
+    example: 'exemplo@email.com',
   })
   email: string;
 
   @IsNotEmpty()
   @ApiProperty({
-    description: 'The password of the user',
-    type: String || null || undefined,
-    example: 'password',
+    type: String,
+    required: true,
+    description: 'Password number',
+    example: 'exemplodeSenha123',
   })
   password: string;
 
   @IsNotEmpty()
   @ApiProperty({
-    description: 'The password of the user',
-    type: String || null || undefined,
-    example: '58395158326',
+    type: String,
+    required: true,
+    description: 'CPF number',
+    example: '11999999999',
   })
   cpf: string;
 
   @Optional()
   @ApiProperty({
-    description: 'The phone confirmation of the user',
     type: String,
-    example: '11196985978',
+    required: false,
+    description: 'Phone number',
+    example: '11999999999',
   })
   phone: string;
 }

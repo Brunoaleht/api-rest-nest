@@ -6,7 +6,7 @@ export const addSwagger = (app: INestApplication) => {
   const configService = app.get<ConfigService>(ConfigService);
 
   const appName = configService.get<string>('API_NAME');
-  const apiService = configService.get<string>('API_SERVICE');
+  const apiServer = configService.get<string>('API_SERVER');
   const apiVersion = configService.get<string>('API_VERSION');
   const appDescription = configService.get<string>('API_DESCRIPTION');
   const appTags = configService.get<string>('API_TAGS');
@@ -14,7 +14,7 @@ export const addSwagger = (app: INestApplication) => {
   const config = new DocumentBuilder()
     .setTitle(appName)
     .setDescription(appDescription)
-    .addServer(apiService ?? '')
+    .addServer(apiServer ?? '')
     .setVersion(apiVersion ?? '1.0')
     .addTag(appTags);
 
