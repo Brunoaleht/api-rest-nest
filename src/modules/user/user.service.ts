@@ -6,13 +6,11 @@ import { UserUpdateDto } from './dtos/user.update.dto';
 import { cryptoPassword } from 'src/utils/cryptoPassword';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { UserRepository } from './repositories/user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-  ) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   async login(user: UserLoginDto): Promise<any> {
     return;
@@ -20,14 +18,14 @@ export class UserService {
 
   async register(user: UserRegisterDto): Promise<UserEntity> {
     const passwordHash = await cryptoPassword(user.password);
-    return await this.userRepository.save({
+    return await this.userRepository.create({
       ...user,
       password: passwordHash,
     });
   }
 
   async remove(userId: number): Promise<DeleteResult> {
-    return await this.userRepository.delete(userId);
+    return await this.userRepository.remove(userId);
   }
 
   async update(userId: number, user: UserUpdateDto): Promise<UpdateResult> {
@@ -44,10 +42,10 @@ export class UserService {
   }
 
   async getUserById(userId: number): Promise<UserEntity> {
-    return await this.userRepository.findOne({ where: { id: userId } });
+    return await this.userRepository.findOne(userId);
   }
 
   async getAllUser(): Promise<UserEntity[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.findAll();
   }
 }
