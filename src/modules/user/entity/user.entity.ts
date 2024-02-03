@@ -49,6 +49,15 @@ export class UserEntity {
   })
   password?: string;
 
+  @Column({ name: 'type_user', nullable: true })
+  @ApiProperty({
+    type: Number,
+    required: false,
+    description: 'typeUser example:',
+    example: 2,
+  })
+  typeUser?: number;
+
   @CreateDateColumn()
   @ApiProperty({
     type: String,

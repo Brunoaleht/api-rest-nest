@@ -11,11 +11,14 @@ export class UserRepository {
   ) {}
 
   async create(user: UserRegisterDto): Promise<UserEntity> {
-    return await this.userRepositoryTypeOrm.save(user);
+    return await this.userRepositoryTypeOrm.save({ ...user, typeUser: 1 });
   }
 
   async update(userId: number, user: UserUpdateDto): Promise<UpdateResult> {
-    return await this.userRepositoryTypeOrm.update(userId, user);
+    return await this.userRepositoryTypeOrm.update(userId, {
+      ...user,
+      typeUser: 1,
+    });
   }
 
   async remove(userId: number): Promise<DeleteResult> {
