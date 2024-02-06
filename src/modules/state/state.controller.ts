@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { StateService } from './state.service';
 import { StateEntity } from './entity/state.entity';
 import { ApiDocGenericGetAll } from 'src/app/common/api-doc-generic-get-all.decorator';
@@ -10,7 +10,9 @@ export class StateController {
 
   @Get(':stateId')
   @ApiDocGenericGetOne('state-get-one', StateEntity)
-  async getStateById(@Param('stateId') stateId: string): Promise<StateEntity> {
+  async getStateById(
+    @Param('stateId', ParseIntPipe) stateId: number,
+  ): Promise<StateEntity> {
     return await this.stateService.findOneState(+stateId);
   }
 
