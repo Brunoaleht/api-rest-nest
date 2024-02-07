@@ -4,9 +4,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CityService } from './city.service';
 import { CityRepository } from './repositories/city.repository';
 import { CityController } from './city.controller';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CityEntity])],
+  imports: [
+    CacheModule.register({
+      ttl: 9500000,
+    }),
+    TypeOrmModule.forFeature([CityEntity]),
+  ],
   controllers: [CityController],
   providers: [CityService, CityRepository],
   exports: [],

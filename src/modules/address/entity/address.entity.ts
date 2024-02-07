@@ -100,7 +100,7 @@ export class AddressEntity {
   @ApiProperty({
     type: Number,
     required: true,
-    describe: 'City id',
+    description: 'City id',
     example: 120,
   })
   cityId: number;

@@ -101,7 +101,7 @@ export class UserEntity {
   @ApiProperty({
     type: String,
     required: false,
-    describe: 'Phone number',
+    description: 'Phone number',
     example: '11999999999',
   })
   phone?: string;
