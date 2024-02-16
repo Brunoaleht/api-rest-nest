@@ -20,7 +20,6 @@ export class AddressService {
   ): Promise<AddressEntity> {
     const user = await this.userService.getUserById(userId);
     const cityExist = await this.cityService.isExistCityId(address?.cityId);
-    console.log('cityExist', cityExist);
     if (!user) {
       throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
     } else if (!cityExist) {
