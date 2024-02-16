@@ -49,6 +49,15 @@ export class AddressEntity {
   })
   street: string;
 
+  @Column({ name: 'district', nullable: false })
+  @ApiProperty({
+    type: String,
+    required: true,
+    description: 'district example:',
+    example: 'Monte Castelo',
+  })
+  district: string;
+
   @Column({ name: 'number', nullable: false })
   @ApiProperty({
     type: Number,
@@ -87,7 +96,7 @@ export class AddressEntity {
     this.updated_at = new Date();
   }
 
-  @Column({ name: 'cep', nullable: false })
+  @Column({ name: 'zip_code', nullable: false })
   @ApiProperty({
     type: String,
     required: true,
