@@ -18,15 +18,9 @@ export class AddressService {
     address: AddressCreatedDto,
     userId: number,
   ): Promise<AddressEntity> {
-    const user = await this.userService.getUserById(userId);
-    const cityExist = await this.cityService.isExistCityId(address?.cityId);
-    if (!user) {
-      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
-    } else if (!cityExist) {
-      throw new HttpException('City not found', HttpStatus.BAD_REQUEST);
-    } else {
-      return await this.addressRepository.create(address, userId);
-    }
+    await this.userService.getUserById(userId);
+    await this.cityService.getCityId(address?.cityId);
+    return await this.addressRepository.create(address, userId);
   }
 
   async getAddressByUserId(userId: number): Promise<AddressEntity[]> {
