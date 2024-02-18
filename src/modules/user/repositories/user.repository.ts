@@ -44,6 +44,10 @@ export class UserRepository {
     });
   }
 
+  async findByEmail(email: string): Promise<UserEntity> {
+    return await this.userRepositoryTypeOrm.findOne({ where: { email } });
+  }
+
   async findAll(): Promise<UserEntity[]> {
     return await this.userRepositoryTypeOrm.find();
   }
