@@ -4,11 +4,11 @@ import { CityEntity } from '../entity/city.entity';
 export class ReturnCityDto {
   id: number;
   name: string;
-  state: ReturnStateDto;
+  state?: ReturnStateDto;
 
   constructor(cityEntity: CityEntity) {
     this.id = cityEntity.id;
     this.name = cityEntity.name;
-    this.state = new ReturnStateDto(cityEntity.state);
+    this.state = cityEntity.state ? new ReturnStateDto(cityEntity.state) : null;
   }
 }

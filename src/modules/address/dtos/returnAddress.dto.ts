@@ -7,7 +7,7 @@ export class ReturnAddressDto {
   district: string;
   numberAddress: number;
   cep: string;
-  city: ReturnCityDto;
+  city?: ReturnCityDto;
 
   constructor(addressEntity: AddressEntity) {
     this.id = addressEntity.id;
@@ -15,6 +15,8 @@ export class ReturnAddressDto {
     this.district = addressEntity.district;
     this.numberAddress = addressEntity.numberAddress;
     this.cep = addressEntity.cep;
-    this.city = new ReturnCityDto(addressEntity.city);
+    this.city = addressEntity.city
+      ? new ReturnCityDto(addressEntity.city)
+      : null;
   }
 }
