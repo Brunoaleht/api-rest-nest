@@ -15,13 +15,4 @@ export class CityController {
   ): Promise<CityEntity[]> {
     return await this.cityService.getAllCityByStateId(+stateId);
   }
-
-  @Get(':cityId/city')
-  @ApiDocGenericGetAll('city-get-one', ReturnCityDto)
-  async getCityById(
-    @Param('cityId', ParseIntPipe) cityId: number,
-  ): Promise<ReturnCityDto> {
-    const city = await this.cityService.getCityId(+cityId);
-    return new ReturnCityDto(city);
-  }
 }
