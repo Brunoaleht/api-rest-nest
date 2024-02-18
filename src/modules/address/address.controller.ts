@@ -15,18 +15,20 @@ import { AddressCreatedDto } from './dtos/address.created.dto';
 import { ReturnAddressDto } from './dtos/returnAddress.dto';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserTypes } from '../user/enum/user-type.enum';
+import { UserId } from 'src/decorators/user-id.decorator';
 
 @Controller('address')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
-  @Post(':userId')
+  @Post()
   @Roles(UserTypes.User)
   @ApiDocGenericPost('address-created', ReturnAddressDto)
   @UsePipes(ValidationPipe)
   async createdAddressByUserId(
-    @Param('userId', ParseIntPipe) userId: number,
+    // @Param('userId', ParseIntPipe) userId: number,
     @Body() body: AddressCreatedDto,
+    @UserId() userId: number,
   ): Promise<ReturnAddressDto> {
     const addressCreated = await this.addressService.createAddress(
       body,
