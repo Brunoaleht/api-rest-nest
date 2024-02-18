@@ -8,12 +8,18 @@ import { LoginDto } from './dtos/login.dto';
 import { UserService } from '../user/user.service';
 import { compare } from 'bcrypt';
 import { UserEntity } from '../user/entity/user.entity';
+import { JwtService } from '@nestjs/jwt';
+import { ReturnLoginDto } from './dtos/returnLogin.dto';
+import { LoginPayloadJwtDto } from './dtos/loginPayloadJwt.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async login(userLogin: LoginDto): Promise<UserEntity> {
+  async login(userLogin: LoginDto): Promise<ReturnLoginDto> {
     const user = await this.userService
       .findUserByEmail(userLogin.email)
       .catch(() => null);
@@ -27,6 +33,11 @@ export class AuthService {
       throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
     }
 
-    return user;
+    const loginPayload = new LoginPayloadJwtDto(user);
+
+    return {
+      accessToken: await this.jwtService.signAsync({ ...loginPayload }),
+      email: user?.email,
+    };
   }
 }

@@ -8,18 +8,18 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
 import { ApiDocGenericPost } from 'src/app/common/api-doc-generic-post.decorator';
-import { ReturnUserDto } from '../user/dtos/returnUser.dto';
+import { ReturnLoginDto } from './dtos/returnLogin.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @ApiDocGenericPost('user-login', LoginDto, ReturnUserDto)
+  @ApiDocGenericPost('user-login', LoginDto, ReturnLoginDto)
   @UsePipes(ValidationPipe)
-  async login(@Body() body: LoginDto): Promise<ReturnUserDto> {
-    const user = await this.authService.login(body);
+  async login(@Body() body: LoginDto): Promise<ReturnLoginDto> {
+    const login = await this.authService.login(body);
 
-    return new ReturnUserDto(user);
+    return login;
   }
 }
