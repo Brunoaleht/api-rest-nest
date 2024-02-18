@@ -1,8 +1,9 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { APP_PIPE } from '@nestjs/core';
+import { APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { GlobalModules } from './modules/global';
 import { FeatureModule } from './modules';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RolesGuard } from './guards/roles.guard';
 
 @Module({
   imports: [
@@ -25,6 +26,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

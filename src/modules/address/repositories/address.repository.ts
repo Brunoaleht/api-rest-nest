@@ -15,7 +15,11 @@ export class AddressRepository {
     address: AddressCreatedDto,
     userId: number,
   ): Promise<AddressEntity> {
-    return await this.addressRepositoryTypeOrm.save({ ...address, userId });
+    return await this.addressRepositoryTypeOrm.save({
+      ...address,
+      userId,
+      relation: ['city'],
+    });
   }
 
   async findOne(addressId: number): Promise<any> {
