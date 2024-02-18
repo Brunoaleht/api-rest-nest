@@ -1,23 +1,36 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserLoginDto } from './dtos/user.login.dto';
 import { UserRegisterDto } from './dtos/user.register.dto';
 import { UserEntity } from './entity/user.entity';
 import { UserUpdateDto } from './dtos/user.update.dto';
 import { cryptoPassword } from 'src/utils/cryptoPassword';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 import { UserRepository } from './repositories/user.repository';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async login(user: UserLoginDto): Promise<any> {
-    return;
-  }
+  // async login(user: UserLoginDto): Promise<any> {
+  //   return;
+  // }
 
   async register(user: UserRegisterDto): Promise<UserEntity> {
     const passwordHash = await cryptoPassword(user.password);
+    const userExists = await this.findUserByEmail(user.email);
+
+    if (userExists) {
+      throw new HttpException(
+        `User E-mail: ${user.email} already exists`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     return await this.userRepository.create({
       ...user,
       password: passwordHash,
@@ -29,6 +42,15 @@ export class UserService {
   }
 
   async update(userId: number, user: UserUpdateDto): Promise<UpdateResult> {
+    const userExists = await this.findUserByEmail(user.email);
+
+    if (userExists) {
+      throw new HttpException(
+        `User E-mail: ${user.email} already exists`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     if (!user?.password) {
       return await this.userRepository.update(userId, {
         ...user,

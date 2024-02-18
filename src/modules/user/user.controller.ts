@@ -28,14 +28,14 @@ import { UserEntity } from './entity/user.entity';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('login')
-  @ApiDocGenericPost('user-login', UserLoginDto, String)
-  @UsePipes(ValidationPipe)
-  async login(@Body() body: UserLoginDto): Promise<any> {
-    const token = await this.userService.login(body);
+  // @Post('login')
+  // @ApiDocGenericPost('user-login', UserLoginDto, String)
+  // @UsePipes(ValidationPipe)
+  // async login(@Body() body: UserLoginDto): Promise<any> {
+  //   const token = await this.userService.login(body);
 
-    return `User Logado: ${token} `;
-  }
+  //   return `User Logado: ${token} `;
+  // }
 
   @Post('register')
   @ApiDocGenericPost('user-register', UserRegisterDto, ReturnUserDto)

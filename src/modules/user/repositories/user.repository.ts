@@ -11,7 +11,7 @@ export class UserRepository {
   ) {}
 
   async create(user: UserRegisterDto): Promise<UserEntity> {
-    return await this.userRepositoryTypeOrm.save({ ...user, typeUser: 1 });
+    return await this.userRepositoryTypeOrm.save({ ...user, typeUser: 2 });
   }
 
   async update(userId: number, user: UserUpdateDto): Promise<UpdateResult> {
