@@ -11,6 +11,7 @@ export class StateRepository {
   async findOne(stateId: number): Promise<StateEntity> {
     return await this.stateRepositoryTypeOrm.findOne({
       where: { id: stateId },
+      relations: ['cities'],
     });
   }
 

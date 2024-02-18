@@ -1,3 +1,4 @@
+import { ReturnCityDto } from 'src/modules/city/dtos/returnCity.dto';
 import { AddressEntity } from '../entity/address.entity';
 
 export class ReturnAddressDto {
@@ -6,15 +7,14 @@ export class ReturnAddressDto {
   district: string;
   numberAddress: number;
   cep: string;
-  cityId: number;
-  userId: number;
+  city: ReturnCityDto;
+
   constructor(addressEntity: AddressEntity) {
     this.id = addressEntity.id;
     this.street = addressEntity.street;
     this.district = addressEntity.district;
     this.numberAddress = addressEntity.numberAddress;
     this.cep = addressEntity.cep;
-    this.cityId = addressEntity.cityId;
-    this.userId = addressEntity.userId;
+    this.city = new ReturnCityDto(addressEntity.city);
   }
 }

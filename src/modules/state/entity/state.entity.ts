@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CityEntity } from 'src/modules/city/entity/city.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -66,4 +68,7 @@ export class StateEntity {
   insertUpdated() {
     this.updated_at = new Date();
   }
+
+  @OneToMany(() => CityEntity, (city) => city.state)
+  cities?: CityEntity[];
 }

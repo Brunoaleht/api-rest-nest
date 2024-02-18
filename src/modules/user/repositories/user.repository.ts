@@ -29,6 +29,13 @@ export class UserRepository {
     return await this.userRepositoryTypeOrm.findOne({ where: { id: userId } });
   }
 
+  async findOneRelations(userId: number): Promise<UserEntity> {
+    return await this.userRepositoryTypeOrm.findOne({
+      where: { id: userId },
+      relations: ['addresses', 'addresses.city', 'addresses.city.state'],
+    });
+  }
+
   async findAll(): Promise<UserEntity[]> {
     return await this.userRepositoryTypeOrm.find();
   }

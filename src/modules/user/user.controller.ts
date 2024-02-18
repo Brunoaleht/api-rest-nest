@@ -21,6 +21,7 @@ import { ApiDocGenericGetAll } from 'src/app/common/api-doc-generic-get-all.deco
 import { UserUpdateDto } from './dtos/user.update.dto';
 import { ApiDocGenericDelete } from 'src/app/common/api-doc-generic-delete.decorator';
 import { ReturnUserDto } from './dtos/returnUser.dto';
+import { UserEntity } from './entity/user.entity';
 
 @ApiTags('user')
 @Controller('user')
@@ -61,12 +62,21 @@ export class UserController {
     return await this.userService.update(+userId, body);
   }
 
+  // @Get(':userId')
+  // @ApiDocGenericGetOne('user-get-one', ReturnUserDto)
+  // async getUserById(
+  //   @Param('userId', ParseIntPipe) userId: number,
+  // ): Promise<ReturnUserDto> {
+  //   const user = await this.userService.getUserById(+userId);
+  //   return new ReturnUserDto(user);
+  // }
+
   @Get(':userId')
-  @ApiDocGenericGetOne('user-get-one', ReturnUserDto)
-  async getUserById(
+  @ApiDocGenericGetOne('user-get-one-relations', ReturnUserDto)
+  async getUserByIdRelation(
     @Param('userId', ParseIntPipe) userId: number,
   ): Promise<ReturnUserDto> {
-    const user = await this.userService.getUserById(+userId);
+    const user = await this.userService.getUserByIdRelation(+userId);
     return new ReturnUserDto(user);
   }
 

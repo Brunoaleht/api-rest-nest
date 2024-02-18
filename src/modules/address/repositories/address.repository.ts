@@ -21,6 +21,7 @@ export class AddressRepository {
   async findOne(addressId: number): Promise<any> {
     return await this.addressRepositoryTypeOrm.findOne({
       where: { id: addressId },
+      relations: ['city'],
     });
   }
 

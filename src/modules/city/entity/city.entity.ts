@@ -1,11 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { AddressEntity } from 'src/modules/address/entity/address.entity';
+import { StateEntity } from 'src/modules/state/entity/state.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -67,4 +71,11 @@ export class CityEntity {
   insertUpdated() {
     this.updated_at = new Date();
   }
+
+  @OneToMany(() => AddressEntity, (address) => address.city)
+  addresses?: AddressEntity[];
+
+  @ManyToOne(() => StateEntity, (state) => state.cities)
+  @JoinColumn({ name: 'state_id', referencedColumnName: 'id' })
+  state?: StateEntity;
 }

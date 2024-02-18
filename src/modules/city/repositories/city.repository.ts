@@ -12,6 +12,7 @@ export class CityRepository {
   async findOne(cityId: number): Promise<CityEntity> {
     return await this.cityRepositoryTypeOrm.findOne({
       where: { id: cityId },
+      relations: ['state'],
     });
   }
 
