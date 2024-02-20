@@ -11,17 +11,14 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserLoginDto } from './dtos/user.login.dto';
 import { UserRegisterDto } from './dtos/user.register.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { ApiDocGenericPost } from 'src/app/common/api-doc-generic-post.decorator';
-import { ApiDocGenericGetOne } from 'src/app/common/api-doc-generic-get-one.decorator';
-import { ApiDocGenericGetAll } from 'src/app/common/api-doc-generic-get-all.decorator';
-
+import { ApiDocGenericPost } from '../../app/common/api-doc-generic-post.decorator';
+import { ApiDocGenericGetOne } from '../../app/common/api-doc-generic-get-one.decorator';
+import { ApiDocGenericGetAll } from '../../app/common/api-doc-generic-get-all.decorator';
 import { UserUpdateDto } from './dtos/user.update.dto';
-import { ApiDocGenericDelete } from 'src/app/common/api-doc-generic-delete.decorator';
+import { ApiDocGenericDelete } from '../../app/common/api-doc-generic-delete.decorator';
 import { ReturnUserDto } from './dtos/returnUser.dto';
-import { UserEntity } from './entity/user.entity';
 
 @ApiTags('user')
 @Controller('user')

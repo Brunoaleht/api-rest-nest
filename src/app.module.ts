@@ -4,6 +4,7 @@ import { GlobalModules } from './modules/global';
 import { FeatureModule } from './modules';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RolesGuard } from './guards/roles.guard';
+import { User2Service } from './user2/user2.service';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { RolesGuard } from './guards/roles.guard';
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
+    User2Service,
   ],
 })
 export class AppModule {}

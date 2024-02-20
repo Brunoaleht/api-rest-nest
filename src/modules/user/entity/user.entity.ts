@@ -1,6 +1,6 @@
 import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { AddressEntity } from 'src/modules/address/entity/address.entity';
+import { AddressEntity } from '../../address/entity/address.entity';
 import {
   BeforeInsert,
   BeforeUpdate,

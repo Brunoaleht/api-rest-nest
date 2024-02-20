@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CityEntity } from 'src/modules/city/entity/city.entity';
+import { CityEntity } from '../../city/entity/city.entity';
 import {
   BeforeInsert,
   BeforeUpdate,

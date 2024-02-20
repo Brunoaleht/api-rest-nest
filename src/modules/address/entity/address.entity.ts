@@ -1,7 +1,7 @@
 import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { CityEntity } from 'src/modules/city/entity/city.entity';
-import { UserEntity } from 'src/modules/user/entity/user.entity';
+import { CityEntity } from '../../city/entity/city.entity';
+import { UserEntity } from '../../user/entity/user.entity';
 import {
   BeforeInsert,
   BeforeUpdate,

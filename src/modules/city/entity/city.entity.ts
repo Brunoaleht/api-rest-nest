@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AddressEntity } from 'src/modules/address/entity/address.entity';
-import { StateEntity } from 'src/modules/state/entity/state.entity';
+import { AddressEntity } from '../../address/entity/address.entity';
+import { StateEntity } from '../../state/entity/state.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
