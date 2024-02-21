@@ -1,4 +1,4 @@
-import { UserTypes } from '../../modules/user/enum/user-type.enum';
+import { UserTypes } from '../../../modules/user/enum/user-type.enum';
 
 export const CreatedUserMock = {
   name: 'João Lucas',
