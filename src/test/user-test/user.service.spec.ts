@@ -5,7 +5,13 @@ import { UserEntity } from '../../modules/user/entity/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserService } from '../../modules/user/user.service';
 import { UserEntityMock } from '../mock/user.mock';
-import { NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+} from '@nestjs/common';
+import { CreatedUserMock } from '../mock/create-user.mock';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -38,6 +44,7 @@ describe('UserService', () => {
               }
             }),
             findOneRelations: jest.fn().mockResolvedValue(UserEntityMock),
+            create: jest.fn().mockResolvedValue(UserEntityMock),
           },
         },
       ],
@@ -74,6 +81,19 @@ describe('UserService', () => {
 
   it('should return a user by id relations', async () => {
     const user = await userService.getUserByIdRelation(UserEntityMock.id);
+    expect(user).toEqual(UserEntityMock);
+  });
+
+  it('should return error if user exist', async () => {
+    await expect(userService.register(CreatedUserMock)).rejects.toThrow(
+      HttpException,
+    );
+  });
+  it('should return error if user not exist', async () => {
+    jest
+      .spyOn(UserService.prototype, 'findUserByEmail')
+      .mockResolvedValue(null);
+    const user = await userService.register(CreatedUserMock);
     expect(user).toEqual(UserEntityMock);
   });
 });
