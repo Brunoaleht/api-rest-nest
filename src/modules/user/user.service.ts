@@ -41,9 +41,15 @@ export class UserService {
   }
 
   async update(userId: number, user: UserUpdateDto): Promise<UpdateResult> {
-    const userExists = await this.findUserByEmail(user.email);
+    const userFind = await this.getUserById(userId);
 
-    if (userExists) {
+    if (!userFind) {
+      throw new NotFoundException(`User, userId: ${userId} not found`);
+    }
+
+    const userEmailExists = await this.findUserByEmail(user.email);
+
+    if (userEmailExists) {
       throw new HttpException(
         `User E-mail: ${user.email} already exists`,
         HttpStatus.BAD_REQUEST,

@@ -1,3 +1,4 @@
+import { AddressEntity } from 'src/modules/address/entity/address.entity';
 import { UserTypes } from '../../modules/user/enum/user-type.enum';
 
 export const UserEntityMock = {
