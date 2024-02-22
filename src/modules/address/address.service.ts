@@ -24,6 +24,7 @@ export class AddressService {
   }
 
   async getAddressByUserId(userId: number): Promise<AddressEntity[]> {
+    await this.userService.getUserById(userId);
     return await this.addressRepository.findAddressByUserId(userId);
   }
 }
