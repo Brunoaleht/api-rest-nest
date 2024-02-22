@@ -5,12 +5,7 @@ import { UserEntity } from '../../modules/user/entity/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { UserService } from '../../modules/user/user.service';
 import { UserEntityMock } from './mock/user.mock';
-import {
-  BadRequestException,
-  HttpException,
-  HttpStatus,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, NotFoundException } from '@nestjs/common';
 import { CreatedUserMock } from './mock/create-user.mock';
 
 describe('UserService', () => {
