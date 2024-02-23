@@ -21,9 +21,9 @@ export class UserService {
 
   async register(user: UserRegisterDto): Promise<UserEntity> {
     const passwordHash = await cryptoPassword(user.password);
-    const userExists = await this.findUserByEmail(user.email);
+    const userExist = await this.userRepository.findByEmail(user.email);
 
-    if (userExists) {
+    if (userExist) {
       throw new HttpException(
         `User E-mail: ${user.email} already exists`,
         HttpStatus.BAD_REQUEST,
