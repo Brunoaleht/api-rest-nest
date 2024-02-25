@@ -16,6 +16,7 @@ import { ReturnAddressDto } from './dtos/returnAddress.dto';
 import { Roles } from 'src/decorators/roles.decorator';
 import { UserTypes } from '../user/enum/user-type.enum';
 import { UserId } from 'src/decorators/user-id.decorator';
+import { ApiDocGenericGetAll } from 'src/app/common/api-doc-generic-get-all.decorator';
 
 @Controller('address')
 export class AddressController {
@@ -35,5 +36,16 @@ export class AddressController {
       userId,
     );
     return new ReturnAddressDto(addressCreated);
+  }
+
+  @Get(':userId')
+  @Roles(UserTypes.User, UserTypes.Admin)
+  @ApiDocGenericGetAll('address-find-userId', ReturnAddressDto)
+  async getAddressByUserId(
+    // @Param('userId', ParseIntPipe) userId: number,
+    @UserId() userId: number,
+  ): Promise<ReturnAddressDto[]> {
+    const address = await this.addressService.getAddressByUserId(userId);
+    return address.map((address) => new ReturnAddressDto(address));
   }
 }

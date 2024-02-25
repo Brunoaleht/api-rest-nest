@@ -1,8 +1,8 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { StateService } from './state.service';
 import { StateEntity } from './entity/state.entity';
-import { ApiDocGenericGetAll } from 'src/app/common/api-doc-generic-get-all.decorator';
-import { ApiDocGenericGetOne } from 'src/app/common/api-doc-generic-get-one.decorator';
+import { ApiDocGenericGetAll } from '../../app/common/api-doc-generic-get-all.decorator';
+import { ApiDocGenericGetOne } from '../../app/common/api-doc-generic-get-one.decorator';
 import { ReturnStateDto } from './dtos/returnSate.dto';
 
 @Controller('state')

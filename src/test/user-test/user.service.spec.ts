@@ -39,7 +39,7 @@ describe('UserService', () => {
               }
             }),
             findOneRelations: jest.fn().mockResolvedValue(UserEntityMock),
-            create: jest.fn().mockResolvedValue(UserEntityMock),
+            create: jest.fn().mockResolvedValue(CreatedUserMock),
             update: jest.fn().mockResolvedValue(UserEntityMock),
           },
         },
@@ -81,16 +81,16 @@ describe('UserService', () => {
   });
 
   it('should return error if user exist', async () => {
-    await expect(userService.register(CreatedUserMock)).rejects.toThrow(
-      HttpException,
-    );
+    await expect(
+      userService.register({ ...CreatedUserMock, email: 'jolucas@email.com' }),
+    ).rejects.toThrow(HttpException);
   });
   it('should return error if user not exist', async () => {
     jest
       .spyOn(UserService.prototype, 'findUserByEmail')
       .mockResolvedValue(null);
     const user = await userService.register(CreatedUserMock);
-    expect(user).toEqual(UserEntityMock);
+    expect(user).toEqual(CreatedUserMock);
   });
 
   it('should updated, if user not exist', async () => {

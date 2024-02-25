@@ -1,7 +1,7 @@
 import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CityEntity } from './entity/city.entity';
-import { ApiDocGenericGetAll } from 'src/app/common/api-doc-generic-get-all.decorator';
+import { ApiDocGenericGetAll } from '../../app/common/api-doc-generic-get-all.decorator';
 import { ReturnCityDto } from './dtos/returnCity.dto';
 
 @Controller('city')
