@@ -45,6 +45,17 @@ export class CategoryController {
     return new ReturnCategoryDto(category);
   }
 
+  @Get('name/:categoryName')
+  @Roles(UserTypes.Admin, UserTypes.User)
+  @ApiDocGenericGetOne('category-get-one', ReturnCategoryDto)
+  async findCategoryName(
+    @Param('categoryName') categoryName: string,
+  ): Promise<ReturnCategoryDto> {
+    const category =
+      await this.categoryService.findByCategoryName(categoryName);
+    return new ReturnCategoryDto(category);
+  }
+
   @Get()
   @Roles(UserTypes.Admin, UserTypes.User)
   @ApiDocGenericGetAll('category-get-all', CategoryEntity)

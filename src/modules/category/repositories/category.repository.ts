@@ -21,6 +21,12 @@ export class CategoryRepository {
     });
   }
 
+  async findByCategoryName(categoryName: string): Promise<CategoryEntity> {
+    return await this.categoryRepositoryTypeOrm.findOne({
+      where: { name: categoryName },
+    });
+  }
+
   async findCategory(): Promise<CategoryEntity[]> {
     return await this.categoryRepositoryTypeOrm.find();
   }
