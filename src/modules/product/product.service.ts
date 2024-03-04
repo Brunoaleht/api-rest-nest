@@ -3,6 +3,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProductEntity } from './entity/product.entity';
 import { CategoryService } from '../category/category.service';
 import { ProductRepository } from './repositories/product.repository';
+import { UpdateResult } from 'typeorm';
+import { CreateProductDto } from './dtos/product.created.dto';
 
 @Injectable()
 export class ProductService {
@@ -11,12 +13,26 @@ export class ProductService {
     private readonly categoryService: CategoryService,
   ) {}
 
+  async createProduct(product: CreateProductDto): Promise<ProductEntity> {
+    await this.categoryService.getCategoryId(product?.categoryId);
+    return this.productRepository.create(product);
+  }
+
+  async updateProduct(
+    productId: number,
+    product: CreateProductDto,
+  ): Promise<UpdateResult> {
+    await this.getProductById(productId);
+    await this.categoryService.getCategoryId(product?.categoryId);
+    return this.productRepository.updated(productId, product);
+  }
+
   async getProductById(productId: number): Promise<ProductEntity> {
-    const city = await this.productRepository.findOne(productId);
-    if (!city) {
+    const product = await this.productRepository.findOne(productId);
+    if (!product) {
       throw new NotFoundException(`Product ${productId} not found`);
     }
-    return city;
+    return product;
   }
 
   async getAllProductByCategoryId(
@@ -27,5 +43,9 @@ export class ProductService {
       await this.productRepository.findProductsByCategoryId(categoryId);
 
     return products;
+  }
+
+  async getAllProducts(): Promise<ProductEntity[]> {
+    return this.productRepository.findAll();
   }
 }
