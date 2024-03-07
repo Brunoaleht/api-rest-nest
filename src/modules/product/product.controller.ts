@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -16,7 +17,8 @@ import { ApiDocGenericPost } from '../../app/common/api-doc-generic-post.decorat
 import { CreateProductDto } from './dtos/product.created.dto';
 import { ReturnProductDto } from './dtos/returnProduct.dto';
 import { ApiDocGenericGetAll } from '../../app/common/api-doc-generic-get-all.decorator';
-import { UpdateResult } from 'typeorm';
+import { ApiDocGenericDelete } from '../../app/common/api-doc-generic-delete.decorator';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Controller('product')
 export class ProductController {
@@ -45,15 +47,25 @@ export class ProductController {
     return await this.productService.updateProduct(productId, product);
   }
 
-  // @Get(':productId')
-  // @Roles(UserTypes.Admin, UserTypes.User)
-  // @ApiDocGenericGetAll('product-get-one', ReturnProductDto)
-  // async findOneProduct(
-  //   @Param('productId', ParseIntPipe) productId: number,
-  // ): Promise<ReturnProductDto> {
-  //   const product = await this.productService.getProductById(productId);
-  //   return new ReturnProductDto(product);
-  // }
+  @Delete('delete/:productId')
+  @Roles(UserTypes.Admin)
+  @ApiDocGenericDelete('product-delete')
+  @UsePipes(ValidationPipe)
+  async delete(
+    @Param('productId', ParseIntPipe) productId: number,
+  ): Promise<DeleteResult> {
+    return await this.productService.deleteProduct(productId);
+  }
+
+  @Get(':productId')
+  @Roles(UserTypes.Admin, UserTypes.User)
+  @ApiDocGenericGetAll('product-get-one', ReturnProductDto)
+  async findOneProduct(
+    @Param('productId', ParseIntPipe) productId: number,
+  ): Promise<ReturnProductDto> {
+    const product = await this.productService.getProductById(productId);
+    return new ReturnProductDto(product);
+  }
 
   @Get('category/:categoryId')
   @Roles(UserTypes.Admin, UserTypes.User)
@@ -67,7 +79,7 @@ export class ProductController {
   }
 
   @Get()
-  @Roles(UserTypes.Admin, UserTypes.User)
+  // @Roles(UserTypes.Admin, UserTypes.User)
   @ApiDocGenericGetAll('product-get-all', ReturnProductDto)
   async findAllProducts(): Promise<ReturnProductDto[]> {
     const products = await this.productService.getAllProducts();

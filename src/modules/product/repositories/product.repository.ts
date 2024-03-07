@@ -29,7 +29,7 @@ export class ProductRepository {
   async findOne(productId: number): Promise<ProductEntity> {
     return await this.productRepositoryTypeOrm.findOne({
       where: { id: productId },
-      relations: ['state'],
+      relations: ['category'],
     });
   }
 
@@ -40,6 +40,8 @@ export class ProductRepository {
   }
 
   async findAll(): Promise<ProductEntity[]> {
-    return await this.productRepositoryTypeOrm.find();
+    return await this.productRepositoryTypeOrm.find({
+      relations: ['category'],
+    });
   }
 }

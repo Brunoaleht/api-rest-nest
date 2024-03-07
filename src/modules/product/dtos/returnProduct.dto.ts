@@ -7,9 +7,11 @@ export class ReturnProductDto {
   description: string;
   price: number;
   image: string;
+  categoryId: number;
   category?: ReturnCategoryDto;
 
   constructor(productEntity: ProductEntity) {
+    this.categoryId = productEntity.categoryId;
     this.id = productEntity.id;
     this.name = productEntity.name;
     this.description = productEntity.description;
