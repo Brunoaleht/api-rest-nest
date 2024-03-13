@@ -4,6 +4,8 @@ import { UserUpdateDto } from '../dtos/user.update.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { UserTypes } from '../enum/user-type.enum';
+import { UpdatePasswordDto } from '../dtos/updated.password.dto';
+import { UserDto } from '../dtos/user.dto';
 
 export class UserRepository {
   constructor(
@@ -22,6 +24,12 @@ export class UserRepository {
     return await this.userRepositoryTypeOrm.update(userId, {
       ...user,
       typeUser: UserTypes.User,
+    });
+  }
+
+  async updatePassword(user: UserDto): Promise<UserEntity> {
+    return await this.userRepositoryTypeOrm.save({
+      ...user,
     });
   }
 

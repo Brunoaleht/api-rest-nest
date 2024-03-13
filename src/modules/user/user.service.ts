@@ -10,6 +10,9 @@ import { UserUpdateDto } from './dtos/user.update.dto';
 import { cryptoPassword } from '../../utils/cryptoPassword';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { UserRepository } from './repositories/user.repository';
+import { UpdatePasswordDto } from './dtos/updated.password.dto';
+import { compare } from 'bcrypt';
+import { validatePassword } from 'src/utils/validatePassword';
 
 @Injectable()
 export class UserService {
@@ -58,11 +61,32 @@ export class UserService {
 
     if (!user?.password) {
       return await this.userRepository.update(userId, {
+        ...userFind,
         ...user,
       });
     }
     const passwordHash = await cryptoPassword(user?.password);
     return await this.userRepository.update(userId, {
+      ...userFind,
+      ...user,
+      password: passwordHash,
+    });
+  }
+
+  async updatePassword(
+    userId: number,
+    updatePassword: UpdatePasswordDto,
+  ): Promise<UserEntity> {
+    const user = await this.getUserById(userId);
+
+    const passwordHash = await cryptoPassword(updatePassword.newPassword);
+
+    const isMatch = validatePassword(updatePassword.oldPassword, user.password);
+    if (!isMatch) {
+      throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
+    }
+
+    return await this.userRepository.updatePassword({
       ...user,
       password: passwordHash,
     });

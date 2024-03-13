@@ -19,6 +19,9 @@ import { ApiDocGenericGetAll } from '../../app/common/api-doc-generic-get-all.de
 import { UserUpdateDto } from './dtos/user.update.dto';
 import { ApiDocGenericDelete } from '../../app/common/api-doc-generic-delete.decorator';
 import { ReturnUserDto } from './dtos/returnUser.dto';
+import { DeleteResult, UpdateResult } from 'typeorm';
+import { UpdatePasswordDto } from './dtos/updated.password.dto';
+import { UserId } from 'src/decorators/user-id.decorator';
 
 @ApiTags('user')
 @Controller('user')
@@ -44,7 +47,9 @@ export class UserController {
 
   @Delete('delete/:userId')
   @ApiDocGenericDelete('user-delete')
-  async delete(@Param('userId', ParseIntPipe) userId: number): Promise<any> {
+  async delete(
+    @Param('userId', ParseIntPipe) userId: number,
+  ): Promise<DeleteResult> {
     return await this.userService.remove(+userId);
   }
 
@@ -54,9 +59,23 @@ export class UserController {
   async update(
     @Param('userId', ParseIntPipe) userId: number,
     @Body() body: UserUpdateDto,
-  ): Promise<any> {
+  ): Promise<UpdateResult> {
     if (!Number(userId)) 'Id invalido';
     return await this.userService.update(+userId, body);
+  }
+
+  @Patch('update/password')
+  @UsePipes(ValidationPipe)
+  @ApiDocGenericPost('user-update-password', UserUpdateDto)
+  async updatePassword(
+    @Body() updatedPasswordDto: UpdatePasswordDto,
+    @UserId() userId: number,
+  ): Promise<ReturnUserDto> {
+    const updatedUser = await this.userService.updatePassword(
+      userId,
+      updatedPasswordDto,
+    );
+    return new ReturnUserDto(updatedUser);
   }
 
   // @Get(':userId')

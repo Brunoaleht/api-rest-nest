@@ -5,8 +5,8 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
-  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -19,6 +19,7 @@ import { ReturnProductDto } from './dtos/returnProduct.dto';
 import { ApiDocGenericGetAll } from '../../app/common/api-doc-generic-get-all.decorator';
 import { ApiDocGenericDelete } from '../../app/common/api-doc-generic-delete.decorator';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { UpdatedProductDto } from './dtos/product.updated.dto';
 
 @Controller('product')
 export class ProductController {
@@ -35,13 +36,13 @@ export class ProductController {
     return new ReturnProductDto(createdProduct);
   }
 
-  @Put('update/:productId')
+  @Patch('update/:productId')
   @Roles(UserTypes.Admin)
-  @ApiDocGenericPost('product-update', CreateProductDto)
+  @ApiDocGenericPost('product-update', UpdatedProductDto)
   @UsePipes(ValidationPipe)
   async update(
     @Param('productId', ParseIntPipe) productId: number,
-    @Body() product: CreateProductDto,
+    @Body() product: UpdatedProductDto,
   ): Promise<UpdateResult> {
     if (!Number(productId)) 'Id invalido';
     return await this.productService.updateProduct(productId, product);
@@ -58,7 +59,7 @@ export class ProductController {
   }
 
   @Get(':productId')
-  @Roles(UserTypes.Admin, UserTypes.User)
+  // @Roles(UserTypes.Admin, UserTypes.User)
   @ApiDocGenericGetAll('product-get-one', ReturnProductDto)
   async findOneProduct(
     @Param('productId', ParseIntPipe) productId: number,
@@ -68,7 +69,7 @@ export class ProductController {
   }
 
   @Get('category/:categoryId')
-  @Roles(UserTypes.Admin, UserTypes.User)
+  // @Roles(UserTypes.Admin, UserTypes.User)
   @ApiDocGenericGetAll('product-get-all-by-category', ReturnProductDto)
   async findAllProductsByCategoryId(
     @Param('categoryId', ParseIntPipe) categoryId: number,

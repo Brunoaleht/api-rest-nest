@@ -57,7 +57,7 @@ export class CategoryController {
   }
 
   @Get()
-  @Roles(UserTypes.Admin, UserTypes.User)
+  // @Roles(UserTypes.Admin, UserTypes.User)
   @ApiDocGenericGetAll('category-get-all', CategoryEntity)
   async getAllCategory(): Promise<ReturnCategoryDto[]> {
     return (await this.categoryService.getAllCategory()).map(

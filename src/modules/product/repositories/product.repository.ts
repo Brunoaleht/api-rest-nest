@@ -4,6 +4,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 import { ProductEntity } from '../entity/product.entity';
 import { CreateProductDto } from '../dtos/product.created.dto';
+import { UpdatedProductDto } from '../dtos/product.updated.dto';
 
 export class ProductRepository {
   constructor(
@@ -17,7 +18,7 @@ export class ProductRepository {
 
   async updated(
     productId: number,
-    product: CreateProductDto,
+    product: UpdatedProductDto,
   ): Promise<UpdateResult> {
     return await this.productRepositoryTypeOrm.update(productId, product);
   }

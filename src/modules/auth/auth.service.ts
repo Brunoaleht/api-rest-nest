@@ -11,6 +11,7 @@ import { UserEntity } from '../user/entity/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { ReturnLoginDto } from './dtos/returnLogin.dto';
 import { LoginPayloadJwtDto } from './dtos/loginPayloadJwt.dto';
+import { validatePassword } from 'src/utils/validatePassword';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +29,7 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
-    const isMatch = await compare(userLogin.password, user.password || '');
+    const isMatch = validatePassword(userLogin.password, user.password);
     if (!isMatch) {
       throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
     }
