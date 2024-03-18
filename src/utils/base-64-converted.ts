@@ -12,6 +12,19 @@ export const authorizationLoginPayload = (
 
   const payload = authorizationSplit[1];
   const buff = Buffer.from(payload, 'base64');
+  const decodedPayload = buff.toString('utf-8');
 
-  return JSON.parse(buff.toString('ascii'));
+  const parsedPayload = JSON.parse(decodedPayload);
+
+  // Verifica se os campos numéricos podem ser convertidos em strings
+  if (!String(parsedPayload.id)) {
+    throw new HttpException(
+      'User ID should be a string',
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+
+  // Adicione mais verificações aqui conforme necessário para outros campos do payload
+
+  return parsedPayload;
 };

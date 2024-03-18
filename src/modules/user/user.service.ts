@@ -81,7 +81,11 @@ export class UserService {
 
     const passwordHash = await cryptoPassword(updatePassword.newPassword);
 
-    const isMatch = validatePassword(updatePassword.oldPassword, user.password);
+    const isMatch = await validatePassword(
+      updatePassword.oldPassword,
+      user.password,
+    );
+
     if (!isMatch) {
       throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
     }

@@ -21,21 +21,14 @@ import { ApiDocGenericDelete } from '../../app/common/api-doc-generic-delete.dec
 import { ReturnUserDto } from './dtos/returnUser.dto';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { UpdatePasswordDto } from './dtos/updated.password.dto';
-import { UserId } from 'src/decorators/user-id.decorator';
+import { UserId } from '../../decorators/user-id.decorator';
+import { Roles } from '../../decorators/roles.decorator';
+import { UserTypes } from './enum/user-type.enum';
 
 @ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  // @Post('login')
-  // @ApiDocGenericPost('user-login', UserLoginDto, String)
-  // @UsePipes(ValidationPipe)
-  // async login(@Body() body: UserLoginDto): Promise<any> {
-  //   const token = await this.userService.login(body);
-
-  //   return `User Logado: ${token} `;
-  // }
 
   @Post('register')
   @ApiDocGenericPost('user-register', UserRegisterDto, ReturnUserDto)
@@ -45,6 +38,7 @@ export class UserController {
     return new ReturnUserDto(createdUser);
   }
 
+  @Roles(UserTypes.Admin)
   @Delete('delete/:userId')
   @ApiDocGenericDelete('user-delete')
   async delete(
@@ -54,6 +48,7 @@ export class UserController {
   }
 
   @Patch('update/:userId')
+  @Roles(UserTypes.Admin, UserTypes.User)
   @ApiDocGenericPost('user-update', UserUpdateDto)
   @UsePipes(ValidationPipe)
   async update(
@@ -64,13 +59,16 @@ export class UserController {
     return await this.userService.update(+userId, body);
   }
 
-  @Patch('update/password')
-  @UsePipes(ValidationPipe)
+  @Roles(UserTypes.Admin, UserTypes.User)
+  @Patch('recover-password')
   @ApiDocGenericPost('user-update-password', UserUpdateDto)
+  @UsePipes(ValidationPipe)
   async updatePassword(
-    @Body() updatedPasswordDto: UpdatePasswordDto,
     @UserId() userId: number,
+    @Body() updatedPasswordDto: UpdatePasswordDto,
   ): Promise<ReturnUserDto> {
+    console.log('userId', userId);
+    console.log('updatedPasswordDto', updatedPasswordDto);
     const updatedUser = await this.userService.updatePassword(
       userId,
       updatedPasswordDto,
@@ -78,15 +76,7 @@ export class UserController {
     return new ReturnUserDto(updatedUser);
   }
 
-  // @Get(':userId')
-  // @ApiDocGenericGetOne('user-get-one', ReturnUserDto)
-  // async getUserById(
-  //   @Param('userId', ParseIntPipe) userId: number,
-  // ): Promise<ReturnUserDto> {
-  //   const user = await this.userService.getUserById(+userId);
-  //   return new ReturnUserDto(user);
-  // }
-
+  @Roles(UserTypes.Admin)
   @Get(':userId')
   @ApiDocGenericGetOne('user-get-one-relations', ReturnUserDto)
   async getUserByIdRelation(
@@ -96,6 +86,7 @@ export class UserController {
     return new ReturnUserDto(user);
   }
 
+  @Roles(UserTypes.Admin)
   @Get()
   @ApiDocGenericGetAll('user-get-all', ReturnUserDto)
   async getAllUser(): Promise<ReturnUserDto[]> {
