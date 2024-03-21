@@ -1,5 +1,6 @@
 import { AddressModule } from './address/address.module';
 import { AuthModule } from './auth/auth.module';
+import { CartModule } from './cart/cart.module';
 import { CategoryModule } from './category/category.module';
 import { CityModule } from './city/city.module';
 import { ProductModule } from './product/product.module';
@@ -14,4 +15,5 @@ export const FeatureModule = [
   AuthModule,
   CategoryModule,
   ProductModule,
+  CartModule,
 ];
