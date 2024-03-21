@@ -8,9 +8,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CartProductEntity } from 'src/modules/cart-product/entity/cart-product.entity';
 
 @Entity('cart')
 export class CartEntity {
@@ -60,4 +62,10 @@ export class CartEntity {
   insertUpdated() {
     this.updated_at = new Date();
   }
+
+  @OneToMany(
+    () => CartProductEntity,
+    (cartProduct: CartProductEntity) => cartProduct.cart,
+  )
+  cartProduct?: CartProductEntity[];
 }
