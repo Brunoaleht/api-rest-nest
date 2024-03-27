@@ -14,7 +14,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('cart-product')
+@Entity('cart_product')
 export class CartProductEntity {
   @PrimaryGeneratedColumn('rowid')
   @ApiProperty({
