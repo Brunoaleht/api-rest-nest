@@ -34,6 +34,15 @@ export class CartEntity {
   })
   userId: number;
 
+  @Column({ name: 'active', nullable: false })
+  @ApiProperty({
+    type: Boolean,
+    required: true,
+    description: 'active',
+    example: true,
+  })
+  active: boolean;
+
   @CreateDateColumn()
   @ApiProperty({
     type: String,
