@@ -1,13 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserEntity } from '../../user/entity/user.entity';
+
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,

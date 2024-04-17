@@ -37,4 +37,15 @@ export class CartRepository {
       where: { userId },
     });
   }
+
+  async findCartWithRelations(userId: number): Promise<CartEntity> {
+    return await this.cartRepositoryTypeOrm.findOne({
+      where: { userId, active: true },
+      relations: {
+        cartProduct: {
+          product: true,
+        },
+      },
+    });
+  }
 }

@@ -25,6 +25,6 @@ export class CartController {
     @UserId() userId: number,
     @Body() body: CartInsertDto,
   ): Promise<CartEntity> {
-    return this.cartService.insertProductInCart(body, userId);
+    return await this.cartService.insertProductInCart(body, userId);
   }
 }

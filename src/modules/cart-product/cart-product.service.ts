@@ -4,10 +4,14 @@ import { CartProductCreatedDto } from './dtos/cart-product.created.dto';
 import { CartInsertDto } from '../cart/dtos/cart.insert.dto';
 import { CartEntity } from '../cart/entity/cart.entity';
 import { CartProductEntity } from './entity/cart-product.entity';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class CartProductService {
-  constructor(private readonly cartProductRepository: CartProductRepository) {}
+  constructor(
+    private readonly cartProductRepository: CartProductRepository,
+    private readonly productService: ProductService,
+  ) {}
 
   async verifyProductInCart(
     productId: number,
@@ -22,6 +26,8 @@ export class CartProductService {
       throw new NotFoundException('Product not found in cart');
     }
 
+    console.log(productInCart);
+
     return productInCart;
   }
 
@@ -29,16 +35,23 @@ export class CartProductService {
     cartProduct: CartInsertDto,
     cartId: number,
   ): Promise<CartProductEntity> {
-    return this.cartProductRepository.createCartProduct({
-      ...cartProduct,
-      cartId,
-    });
+    const cartProductCreated =
+      await this.cartProductRepository.createCartProduct({
+        ...cartProduct,
+        cartId,
+      });
+
+    console.log(cartProductCreated);
+
+    return cartProductCreated;
   }
 
   async insertProductInCart(
     insertProduct: CartInsertDto,
     cart: CartEntity,
   ): Promise<CartProductEntity> {
+    await this.productService.getProductById(insertProduct.productId);
+
     const productInCart = await this.verifyProductInCart(
       insertProduct.productId,
       cart.id,
@@ -48,7 +61,7 @@ export class CartProductService {
       return await this.createCartProduct(insertProduct, cart.id);
     }
 
-    return this.createCartProduct(
+    return await this.createCartProduct(
       { ...productInCart, amount: productInCart.amount + insertProduct.amount },
       cart.id,
     );
