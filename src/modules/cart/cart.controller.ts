@@ -12,6 +12,7 @@ import { UserId } from 'src/decorators/user-id.decorator';
 import { CartInsertDto } from './dtos/cart.insert.dto';
 import { CartEntity } from './entity/cart.entity';
 import { ApiDocGenericPost } from 'src/app/common/api-doc-generic-post.decorator';
+import { ReturnCartProductDto } from '../cart-product/dtos/returnCartProduct.dto';
 
 @Roles(UserTypes.User, UserTypes.Admin)
 @Controller('cart')
@@ -24,7 +25,12 @@ export class CartController {
   async insertCart(
     @UserId() userId: number,
     @Body() body: CartInsertDto,
-  ): Promise<CartEntity> {
-    return await this.cartService.insertProductInCart(body, userId);
+  ): Promise<any> {
+    const cart = await this.cartService.insertProductInCart(body, userId);
+
+    return {
+      ...cart,
+      cartProduct: cart.cartProduct.map((cp) => new ReturnCartProductDto(cp)),
+    };
   }
 }
