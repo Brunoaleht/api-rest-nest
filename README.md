@@ -73,3 +73,11 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](LICENSE).
 
 ## DEVELOP
+
+# Docker command
+
+docker compose -f docker-compose.dev.yaml --env-file ".env" up -d
+
+# Gerar migrações
+
+typeorm migration:generate
